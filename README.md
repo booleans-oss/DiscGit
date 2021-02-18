@@ -1,3 +1,3 @@
 # DiscGit
 
-ceci est un test bitch
+ceci est un test
