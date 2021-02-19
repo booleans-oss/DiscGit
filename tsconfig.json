@@ -9,7 +9,6 @@
       "esnext.asynciterable",
     ],
     "strict": true,
-    "typeRoots" : ["./node_modules/@types", "./types"],
     "outDir": "./dist",
     "esModuleInterop": true,
     "declaration": true,
