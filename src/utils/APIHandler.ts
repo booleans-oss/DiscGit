@@ -8,83 +8,84 @@ export default class APIHandler extends Octokit {
         this._config = config;
         this._app = app;
     }
-    async getWebhook(repo: string): Promise<Webhook | undefined> {
+    async getWebhook(owner: string, repo: string, type: string): Promise<Webhook | undefined> {
         let webhooks: undefined | Array<Webhook> = undefined;
         try {
-            webhooks = (await this.request('GET /repos/{owner}/{repo}/hooks', {
-                owner: this._config.owner,
-                repo
-              })).data as Array<Webhook>
+            const options = this.fetchOptions(owner, repo, type);
+            webhooks = (await this.request(type === 'repository' ? 'GET /repos/{owner}/{repo}/hooks':'GET /orgs/{org}/hooks', options as { owner: string, repo: string })).data as Array<Webhook>;
     } catch(e) {
-        this._app.logger.err(e.message);
+        throw `Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`
     }
     if(!webhooks) return;
     const RepoWebhooks = webhooks.filter((webhook: Webhook) => webhook.config.url.endsWith('.ngrok.io'));
     return RepoWebhooks[0];
     }
 
-    async getWebhookById(repo: string, id: number): Promise<Webhook | undefined> {
+    async getWebhookById(owner: string, repo: string, id: number, type: string): Promise<Webhook | undefined> {
         let webhook: undefined | Webhook = undefined;
         try {
-            webhook = (await this.request('GET /repos/{owner}/{repo}/hooks/{hook_id}', {
-                owner: this._config.owner,
-                repo,
-                hook_id: id
-              })).data as Webhook
+            const options = { ...this.fetchOptions(owner, repo, type), hook_id: id};
+            webhook = (await this.request(type === 'repository' ? 'GET /repos/{owner}/{repo}/hooks/{hook_id}':'GET /orgs/{org}/hooks/{hook_id}', options as { owner: string, repo: string, hook_id: number})).data as Webhook;
     } catch(e) {
-        this._app.logger.err(e.message);
-    }
+            throw `Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`
+        }
     return webhook;
     }
 
-    async createWebhook(repo: string, events: Array<EventType>): Promise<Webhook | undefined> {
+    async createWebhook(owner: string, repo: string, events: Array<EventType>, type: string): Promise<Webhook | undefined> {
         try {
-            const { data }: { data: { id: number }} = await this.request('POST /repos/{owner}/{repo}/hooks', {
-                owner: this._config.owner,
-                repo: repo,
+            const options = { ...this.fetchOptions(owner, repo, type),
                 config: {
-                  url: this._app._url,
-                  content_type: 'json',
-                  secret: this._config.secret,
-                  insecure_ssl: 'insecure_ssl',
-                  token: 'token',
-                  digest: 'digest'
+                    url: this._app._url,
+                    content_type: 'json',
+                    secret: this._config.secret,
+                    insecure_ssl: 'insecure_ssl',
+                    token: 'token',
+                    digest: 'digest'
                 },
                 events
-              });
-              return await this.getWebhookById(repo, data.id);
+            };
+            const { data }: { data: { id: number }} = await this.request(type === 'repository' ? 'POST /repos/{owner}/{repo}/hooks':'POST /orgs/{org}/hooks', options as { owner: string, repo: string, config: any });
+              return await this.getWebhookById(owner, repo, data.id, type);
         } catch(e) {
-            this._app.logger.err(e.message);
+            throw `Unable to create webhook for repo: ${repo} due to error: ${e.message}`;
         }
     }
-    async pingWebhook(id: number, repo: string): Promise<void> {
+    async pingWebhook(id: number, repo: string, owner: string, type: string): Promise<void> {
         try {
-            await this.request(`POST /repos/{owner}/{repo}/hooks/{hook_id}/pings`, {
-            owner: this._config.owner,
-            repo,
-            hook_id: id
-          });
+            const options = { ...this.fetchOptions(owner, repo, type, true), hook_id: id}
+            await this.request(type === 'repository' ? 'POST /repos/{owner}/{repo}/hooks/{hook_id}/pings':'POST /orgs/{org}/hooks/{hook_id}/pings', options as { owner: string, repo: string, hook_id: number});
         } catch(e) {
-            this._app.logger.err(e.message);
+            throw `Unable to ping webhook for repo ${repo} due to error: ${e.message}`;
         }
     }
-    async updateWebhook(repo: string, id: number, events: Array<EventType>): Promise<Webhook | undefined> {
+    async updateWebhook(owner: string, repo: string, id: number, events: Array<EventType>, type: string): Promise<Webhook | undefined> {
         try {
-            await this.request('PATCH /repos/{owner}/{repo}/hooks/{hook_id}', {
-                owner: this._config.owner,
-                repo: repo,
-                hook_id: id,
+            const options = {
+                ...this.fetchOptions(owner, repo, type),
                 config: {
                     url: this._app._url,
                     content_type: 'json',
                     secret: this._config.secret,
                     insecure_ssl: 'insecure_ssl',
                 },
-                events,
-              });
-              return await this.getWebhookById(repo, id)
+                hook_id: id
+            }
+            await this.request(type === 'repository' ? 'PATCH /repos/{owner}/{repo}/hooks/{hook_id}':'PATCH /orgs/{org}/hooks/{hook_id}', options as { owner: string, repo: string, hook_id: number});
+              return await this.getWebhookById(owner, repo, id, type)
         } catch(e) {
-            this._app.logger.err(e.message);
+            throw `Unable to update webhook for repo: ${repo} due to error: ${e.message}`;
         }
+    }
+    fetchOptions(owner: string, repo: string, type: string, ping?: boolean) {
+        const options: { owner?: string, repo?: string, org?: string, name?: string} = {};
+        if(type === 'repository') {
+            options.repo = repo;
+            options.owner = owner;
+        } else {
+            options.org = owner;
+            if(!ping) options.name = 'web';
+        }
+        return options;
     }
 }

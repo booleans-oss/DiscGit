@@ -3,6 +3,9 @@ import { GitCommit } from "../server.d";
 export function getPropertyValue<T, K extends keyof T>(config: T, index: K): T[K] {
     return config[index]
 }
+export function hasPropertyValue<T, K extends keyof T>(config: T, index: K): boolean {
+    return !!config[index]
+}
 export function updatePropertyValue<T, K extends keyof T>(config: T, index: K, value: T[K]): T[K] {
     return config[index] = value;
 }

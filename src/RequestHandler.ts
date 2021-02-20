@@ -14,8 +14,8 @@ export default function RequestHandler(server: Server, request: IncomingMessage,
     request.on('end', function () {
         const data = JSON.parse(body);
         if(request.headers['x-github-event'] === 'ping' && server._config.log === true) {
-            server.logger.log(`Ping received, took: ${Math.floor(Date.now() - new Date(data.hook.updated_at).getTime())} ms.`)
+            console.log(`Ping received, took: ${Math.floor(Date.now() - new Date(data.hook.updated_at).getTime())} ms.`)
         };
-        server.client.emit('DiscGit', server.client, data, request.headers['x-github-event'], request.headers['x-github-hook-id'])
+        server.client.emit('Webhook-Event', server.client, data, request.headers['x-github-event'], request.headers['x-github-hook-id'])
     });
 }
