@@ -6,12 +6,14 @@ export function getPropertyValue<T, K extends keyof T>(
 ): T[K] {
   return config[index];
 }
+
 export function hasPropertyValue<T, K extends keyof T>(
   config: T,
   index: K
 ): boolean {
   return !!config[index];
 }
+
 export function updatePropertyValue<T, K extends keyof T>(
   config: T,
   index: K,
@@ -19,6 +21,7 @@ export function updatePropertyValue<T, K extends keyof T>(
 ): T[K] {
   return (config[index] = value);
 }
+
 export function beautifyCommits(payload: any): string {
   const commits: Array<GitCommit> = payload.commits;
   const orderedCommits = [];

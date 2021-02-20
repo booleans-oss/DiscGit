@@ -8,16 +8,17 @@ import {
   hasPropertyValue,
 } from "./util";
 import path from "path";
+
 export default class Config {
+
   private _data: ServerConfig | undefined = undefined;
 
   registry(): void {
-    this._data = JSON.parse(
-      (fs.readFileSync(
-        path.join(process.cwd(), "discgit.config.json")
-      ) as unknown) as string
-    );
+    const ConfigFile = fs.readFileSync(path.join(process.cwd(), "discgit.config.json"));
+    if(!ConfigFile) throw `No config file!`
+    this._data = JSON.parse(ConfigFile as unknown as string);
   }
+
   verify(app: Server): ServerConfig {
     this.registry();
     const ConfigFields: Array<ConfigType> = [

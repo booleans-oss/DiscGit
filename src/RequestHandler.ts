@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http";
 import Server from "./server";
+
 export default function RequestHandler(
   server: Server,
   request: IncomingMessage,

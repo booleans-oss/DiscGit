@@ -3,11 +3,13 @@ import Server from "../server";
 import { ServerConfig, EventType } from "../server.d";
 import { Webhook } from "../webhooks/webhook";
 export default class APIHandler extends Octokit {
+
   constructor(config: ServerConfig, app: Server) {
     super({ auth: config.token });
     this._config = config;
     this._app = app;
   }
+
   async getWebhook(
     owner: string,
     repo: string,
@@ -87,6 +89,7 @@ export default class APIHandler extends Octokit {
       throw `Unable to create webhook for repo: ${repo} due to error: ${e.message}`;
     }
   }
+
   async pingWebhook(
     id: number,
     repo: string,
@@ -108,6 +111,7 @@ export default class APIHandler extends Octokit {
       throw `Unable to ping webhook for repo ${repo} due to error: ${e.message}`;
     }
   }
+
   async updateWebhook(
     owner: string,
     repo: string,
@@ -137,6 +141,7 @@ export default class APIHandler extends Octokit {
       throw `Unable to update webhook for repo: ${repo} due to error: ${e.message}`;
     }
   }
+  
   fetchOptions(owner: string, repo: string, type: string, ping?: boolean) {
     const options: {
       owner?: string;

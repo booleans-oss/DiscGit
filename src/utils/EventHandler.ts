@@ -7,6 +7,7 @@ export default function FetchEmbed(
 ): CustomEmbed | undefined {
   let MessageEmbed: CustomEmbed;
   switch (event) {
+
     case "push": {
       if (payload.commits.length === 0) {
         MessageEmbed = {
@@ -42,6 +43,7 @@ export default function FetchEmbed(
       }
       break;
     }
+
     case "issue_comment": {
       if (payload.action === "edit") return;
       const isCreated = payload.action === "created";
@@ -61,6 +63,7 @@ export default function FetchEmbed(
       };
       break;
     }
+
     case "star": {
       MessageEmbed = {
         color: payload.action === "created" ? "E6CA40" : "782029",
@@ -76,6 +79,7 @@ export default function FetchEmbed(
       };
       break;
     }
+
     case "release": {
       const isReleased = [
         "published",
@@ -99,6 +103,7 @@ export default function FetchEmbed(
       };
       break;
     }
+
     case "pull_request_review_comment": {
       if (payload.action === "edit") return;
       const isCreated = payload.action === "created";
@@ -118,6 +123,7 @@ export default function FetchEmbed(
       };
       break;
     }
+
     case "pull_request_review": {
       if (payload.action !== "submitted") return;
       MessageEmbed = {
@@ -132,8 +138,10 @@ export default function FetchEmbed(
       };
       break;
     }
+
     case "issues": {
       switch (payload.action) {
+
         case "opened": {
           MessageEmbed = {
             color: "A9F5A9",
@@ -148,6 +156,7 @@ export default function FetchEmbed(
           };
           break;
         }
+
         case "reopened": {
           MessageEmbed = {
             color: "A9F5A9",
@@ -182,8 +191,10 @@ export default function FetchEmbed(
       }
       break;
     }
+
     case "pull_request": {
       switch (payload.action) {
+
         case "opened": {
           MessageEmbed = {
             color: "A9F5A9",
@@ -198,6 +209,7 @@ export default function FetchEmbed(
           };
           break;
         }
+
         case "reopened": {
           MessageEmbed = {
             color: "A9F5A9",

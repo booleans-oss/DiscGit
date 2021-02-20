@@ -8,14 +8,20 @@ import {
 import Server from "../server";
 import { Webhook } from "./webhook";
 import { EVENTS } from "../constants";
+
 export default class WebhookHandler {
+
   private _config: ServerConfig;
   private app: Server;
   private _data: Array<HookConfig> = [];
+
   constructor(config: ServerConfig, app: Server) {
+
     this._config = config;
     this.app = app;
+
   }
+
   async getWebhook(
     owner: string,
     repo: string,
@@ -36,12 +42,14 @@ export default class WebhookHandler {
       else await this.updateWebhook({ ...Repos[i], id: webhook.id });
     }
   }
+
   async LinkHooksToClient(client: ClientGithub): Promise<void> {
     client.hooks = [];
     for (let i = 0; i < this._data.length; i++) {
       client["hooks"].push(this._data[i]);
     }
   }
+
   async createWebhook({
     owner,
     repo,
@@ -57,6 +65,7 @@ export default class WebhookHandler {
     )) as Webhook;
     this._data.push({ owner, id: webhook.id, repo: repo, channel, type });
   }
+
   async updateWebhook({
     owner,
     repo,
@@ -85,9 +94,11 @@ export default class WebhookHandler {
       );
     }
   }
+
   isRegisteredWebhook(id: string): boolean {
     return this._data.findIndex((wb) => wb.id === parseInt(id)) >= 0;
   }
+
   isValidHook(hook: HookData): boolean {
     const MustHaveProperties: Array<
       "type" | "channel" | "repo" | "events" | "owner"
