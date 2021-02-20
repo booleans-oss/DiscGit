@@ -1,0 +1,14 @@
+{
+    "owner": "booleans-oss",
+    "port": 3000,
+    "token": "6e12f43d4d9d8d55b000b4ead7d23176716ff5ff",
+    "secret": "booleanslebg",
+    "repos": [
+       {
+           "repo": "DiscGit",
+           "channel": "723819684541104179",
+          "events": ["star", "release", "pull_request_review_comment", "pull_request_review", "pull_request", "issues", "push", "issue_comment", "fork", "delete", "deployment", "commit_comment" , "create"
+          ]
+       }
+    ]
+}
