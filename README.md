@@ -19,21 +19,21 @@ A powerful package to create Github Webhooks and link to Discord.js.
 Discgit is a Node.js package which allows users to create webhooks on their public and private Github repos and connect them to their Discord.js bot in order to receive every notification.
 # Table of contents
 - [Installation](#installation)
-- [Usage](#Usage)
+- [Usage](#usage)
 - [Getting started](#getting-started)
   - [Configuration](#configuration)
-    - [Config File](#configFile)
-    - [Auth Token](#Token)
-    - [Hook Config](#HookConfig)
-  - [Link to Discord](#Link)
-  - [Receiving requests](#Receiving)
-  - [Fetching Embed](#Sending)
-- [Payload and Events](#Types)
-  - [Github Events](#Github Events)
-  - [Event payload](#Event Payload)
+    - [Config File](#config-file)
+    - [Auth Token](#auth-token)
+    - [Hook Config](#hook-config)
+  - [Link to Discord](#link-to-discord)
+  - [Receiving requests](#receiving-request)
+  - [Fetching Embed](#fetching-embed)
+- [Payload and Events](#payload-events)
+  - [Github Events](#github-events)
+  - [Event payload](#event-payload)
 - [FAQ](#FAQ)
   
-# Installation
+# <a name="installation"></a> Installation
 Using npm: 
 ```bash
 $ npm install discgit
@@ -44,7 +44,7 @@ Using yarn
 $ yarn add discgit
 ```
 
-# Usage 
+# <a name="usage"></a> Usage 
 The following examples use CommonJS import. If using ES6 import, or Typescript, see: [Typescript](#Typescript)
 ```js
 const Discgit = require('discgit');
@@ -57,11 +57,11 @@ client.on('GithubEvent', (payload, event) => {
   console.log(event) // will log "push"
  });
  ```
-# Getting Started
-## Configuration
+# <a name="getting-started"></a> Getting Started
+## <a name="configuration"></a> Configuration
 In order to create the different webhooks, the package requires a ``discgit.config.json`` file in the root folder of your project. **It is very important to name the file ``discgit.config.json`` as well as putting it in the root folder.**
 
-## Configuration file
+## <a name="config-file"></a> Configuration file
 The configuration file contains the different information for the Github user:
 ```json
 {
@@ -82,7 +82,7 @@ Key | Type | Required | Default | Description
 **logs** | ``boolean`` | ``false`` | ``false`` | If the application should log the different information about the server/hooks (ping, events)
 **repos** | ``Array<HookConfig`` | ``true`` | ``null`` | Array of the different hooks the app will listen to
 
-### Auth Token
+### <a name="auth-token"></a> Auth Token
 In order for the package to access the required repos and organizations, A personal Access Token is needed in the configuration file. This token is mandatory for the package to work. **The package will not store the token in a database.** The package only uses the token as it is required in the different HTTP Request.
 To get this token, the user must create its own on this link: [New Personal Access Token](https://github.com/settings/tokens/new) or by going on ``Github`` -> ``Settings`` -> ``Developer settings`` -> ``Personal access tokens`` -> ``New personal access token``. 
 For the package to work perfectly, few options need to be checked:
@@ -90,7 +90,7 @@ For the package to work perfectly, few options need to be checked:
 - ``admin:repo_hook``: to be able to read and write the different repo's hooks
 - `` admin: org_hook``: to be able to read and write the different org's hooks
 
-### HookConfig
+### <a name="hook-config"></a> HookConfig
 
 ```json
 {
@@ -113,7 +113,7 @@ Key | Type | Required | Default | Description
 **events** | ``Array<WebhookEvents>`` | ``false`` | ``['push', 'star', 'fork']`` | The different the webhook will listen to and send POST request when occuring
 **channel** | ``string`` | ``true`` | ``null`` | ID of the Guild's channel the bot will send the notifications on Discord
 
-## Linking with Discord
+## <a name="link-to-discord"></a> Linking with Discord
 ```js
 const Discprd = require('discord.js')
 const Client = new Discord.Client();
@@ -127,7 +127,7 @@ Discgit(Client)
 ```
 The first and only parameter that the root function is the Client Instance. By doing so, the package will be able to declare and emit the custom event when receiving a request if the user has not defined its own event.
 
-# Receiving Requests
+# <a name="receiving-request"></a> Receiving Requests
 As the HTTP server is set up, the server will emit the event ``Webhook-Event`` on the client instance. The module allows the user to create its own ``Webhook-Event`` as long as it is declared in the bot instance. The event has two parameters:
 
 Key | Type | Description
@@ -143,7 +143,7 @@ client.on('Webhook-Event', (payload, event) => {
 ```
 However, the module offers the basic standard notification messages **if the event ``Webhook-Event`` is not set by the user**. The basic messages look just as the Discord's Github Webhooks messages.
 
-# Fetching default message
+# <a name="fetching-embed"></a>Fetching default message
 As the module provides a default event handler (when the event is not set), the package contains the basic message embed. It is also possible to set its own ``Webhook-Event`` but importing the default message builder in order to be able to modify it afterward.
 ```js
 const { fetchEmbed } = require('discgit');
@@ -156,9 +156,9 @@ client.on('Webhook-Event', (payload, event) => {
     // Overwriting the default title of the embed
 })
 ```
-## Payload and Events
+## <a name="payload-events"></a> Payload and Events
 
-###Github Events
+### <a name="github-events"></a> Github Events
 
 The list of available events is published on [Github's Webhooks API] however, the default event handler only supports few of them (we will add more): 
 - push
@@ -171,7 +171,7 @@ The list of available events is published on [Github's Webhooks API] however, th
 - issue_comment
 - release
 
-### Event Payload
+### <a name="event-paylod"></a> Event Payload
 The payload sent by Github's API is different for each event which is why the format of the payload will only contain the properties common to all webhooks' payload. **It is recommended to check out Github's Documentation in order to find the different properties for each event's payload.**
 
 | Key | Type | Description
@@ -180,7 +180,7 @@ The payload sent by Github's API is different for each event which is why the fo
 **sender** | ``object`` | The user that is responsible of the event being triggered (the pusher, or the commiter)
 **repository** | ``object`` | The repository where the event was triggered.
 
-# FAQ
+# <a name="faq"></a> FAQ
 > Should I commit my ``discgit.config.json`` file ?
 
 **ABSOLUTELY NOT**. Your config file contains your Github Access Token. Publicly commiting your access token can compromise your whole Github profile even if you have configured it to only access hooks.
