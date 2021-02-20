@@ -1,15 +1,11 @@
 # TODO
 - [x] Star
-- [] Workflow_run
 - [X] Release
 - [X] Pull Request Review Comment
 - [X] Pull Request Review
 - [X] Pull Request
-- [] Ping
-- [] Issues
-- [] Issues Comment
-- [] Fork
-- [] Delete
+- [X] Ping
+- [X] Issues
+- [X] Issues comment
+- [X] Fork
 - [] Deployment
-- [] Commit Comment
-- [] Create

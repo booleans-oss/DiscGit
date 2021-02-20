@@ -4,6 +4,7 @@ export interface ServerConfig {
     secret: string,
     owner: string,
     token: string,
+    log?: boolean,
     repos: Array<HookConfig>
 }
 
