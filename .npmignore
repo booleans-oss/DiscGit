@@ -1,4 +1,4 @@
-src
+src/
 tsconfig.json
 .env
 .eslintrc.json
@@ -7,5 +7,9 @@ tsconfig.json
 .prettierrc.json
 package-lock.json
 webpack.config.js
+.DS_Store
+.idea/
+.git
+npm-debug.log
 yarn.lock
 discgit.config.json

@@ -1,6 +1,7 @@
-import { ServerConfig, HookConfig, ClientGithub, EventType} from '../server.d'
+import { ServerConfig, HookConfig, HookData, ClientGithub, EventType} from '../server.d'
 import Server from '../server'
 import { Webhook } from './webhook';
+import { EVENTS } from "../constants";
 export default class WebhookHandler {
     private _config: ServerConfig;
     private app: Server;
@@ -13,7 +14,7 @@ export default class WebhookHandler {
         return await this.app.APIHandler.getWebhook(repo)
     }
     async readWebhooks(): Promise<void> {
-        const Repos: Array<HookConfig> = this._config.repos;
+        const Repos: Array<HookData> = this._config.repos as Array<HookData>;
         for(let i = 0; i < Repos.length; i++) {
             if(!this.isValidHook(Repos[i])) return;
             const webhook: Webhook | undefined = await this.app.APIHandler.getWebhook(Repos[i].repo);
@@ -44,15 +45,15 @@ export default class WebhookHandler {
     isRegisteredWebhook(id: string): boolean {
         return this._data.findIndex(wb => wb.id === parseInt(id)) >= 0
     }
-    isValidHook(hook: HookConfig): boolean {
+    isValidHook(hook: HookData): boolean {
         const MustHaveProperties: Array<"channel"|"repo" | "events"> = ["channel", "repo", "events"];
         let validity = true;
         for(let i = 0; i < MustHaveProperties.length; i++) {
-            if(!hook[MustHaveProperties[i]]) {
+            if (!hook[MustHaveProperties[i]]) {
                 this.app.logger.err(`Required ${MustHaveProperties[i]} for webhook`);
-                validity = false;
+                return validity = false;
             }
         }
-        return validity;
+        return hook.events.some(event => !EVENTS.includes(event));
     }
 }

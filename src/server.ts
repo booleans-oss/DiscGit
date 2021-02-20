@@ -40,7 +40,7 @@ export default class Server {
     }
     listen():void {
         this.server.listen(this._config.port, undefined, async () => {
-            this.logger.log('Serveur UP');
+            if(this._config.log === true) this.logger.log('Discord Webhooks Listening');
             await this.webhooks.pingAll();
         });
     }
