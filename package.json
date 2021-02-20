@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "run:dev": "ts-node src/index.ts",
+    "lint:prettier": "prettier --write \"src/\"",
     "build": "tsc"
   },
   "repository": {

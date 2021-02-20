@@ -1,6 +1,3 @@
-import Config from './Config'
-import APIHandler from './APIHandler'
-export {
-    Config,
-    APIHandler
-}
+import Config from "./Config";
+import APIHandler from "./APIHandler";
+export { Config, APIHandler };
