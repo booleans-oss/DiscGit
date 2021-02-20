@@ -1,7 +1,7 @@
 {
   "name": "discgit",
   "version": "1.0.0",
-  "description": "",
+  "description": "A powerful package to create Github Webhooks and link to Discord.js.",
   "main": "dist/index.js",
   "scripts": {
     "run:dev": "ts-node src/index.ts",
