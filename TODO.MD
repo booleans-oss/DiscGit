@@ -11,5 +11,5 @@
 - [] Fork
 - [] Delete
 - [] Deployment
-- [] Commit Command
+- [] Commit Comment
 - [] Create

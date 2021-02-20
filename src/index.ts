@@ -9,5 +9,5 @@ const DiscGit = (client: Client):Server => {
     return new Server(client);
 }
 const bot = new Client();
-bot.login('NzU5NzA4NjEyNDM1NTA5Mjc4.X3Bbxw.D9MAFyzznfw57hjdSfbCtFC3Hbs');
-if(process.env.NODE_ENVIRONMENT === "DEV") DiscGit(bot); 
+bot.login('NzU5NzA4NjEyNDM1NTA5Mjc4.X3Bbxw.S7nJWzqrpwvNgCeKCEorvBH9ejQ');
+if(process.env.NODE_ENVIRONMENT === "DEV") DiscGit(bot);

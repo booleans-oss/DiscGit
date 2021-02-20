@@ -18,7 +18,24 @@ export default function FetchEmbed(payload: any, event: EventType): CustomEmbed 
             };
             break;
         }
-    case 'star': {
+        case 'issue_comment' : {
+            if(payload.action === 'edit') return;
+            const isCreated = payload.action === 'created';
+            const title = isCreated ? `[${payload.repository.full_name}] New comment on issue #${payload.issue.number}: ${payload.issue.title}`: `[${payload.repository.full_name}] Comment on pull request #${payload.issue.number} deleted`
+            MessageEmbed = {
+                color: 'F5DA81',
+                author: {
+                    name: payload.sender.login,
+                    icon_url: payload.sender.avatar_url,
+                    url: payload.sender.html_url
+                },
+                url: payload.comment.html_url,
+                title,
+                description: payload.comment.body
+            }
+            break;
+        }
+        case 'star': {
         MessageEmbed = {
             color: payload.action === 'created' ? 'E6CA40' : '782029',
             author: {
@@ -36,9 +53,9 @@ export default function FetchEmbed(payload: any, event: EventType): CustomEmbed 
         MessageEmbed = {
             color: isReleased ? 'E6CA40' : '782029',
             author: {
-                name: payload.release.author.login,
-                icon_url: payload.release.author.avatar_url,
-                url: payload.release.author.html_url
+                name: payload.sender.login,
+                icon_url: payload.sender.avatar_url,
+                url: payload.sender.html_url
             },
             url: payload.release.url,
             title: `[${payload.repository.full_name}/${payload.release.target_commitish}?v${payload.release.tag_name}] ${isReleased ? 'New release' : 'Release deleted'}`,
@@ -46,17 +63,17 @@ export default function FetchEmbed(payload: any, event: EventType): CustomEmbed 
         break;
     }
         case 'pull_request_review_comment': {
-            if(payload.action !== 'edit') return;
+            if(payload.action === 'edit') return;
             const isCreated = payload.action === 'created';
-            const title = isCreated ? `[${payload.repository.full_name}] New comment on pull request #${payload.pull_request.id}: ${payload.pull_reuqest.title}`: `[${payload.repository.full_name}] Comment on pull request #${payload.pull_request.id} deleted`
+            const title = isCreated ? `[${payload.repository.full_name}] New comment on pull request #${payload.pull_request.number}: ${payload.pull_request.title}`: `[${payload.repository.full_name}] Comment on pull request #${payload.pull_request.id} deleted`
             MessageEmbed = {
                 color: 'F5DA81',
                 author: {
-                    name: payload.release.author.login,
-                    icon_url: payload.release.author.avatar_url,
-                    url: payload.release.author.html_url
+                    name: payload.sender.login,
+                    icon_url: payload.sender.avatar_url,
+                    url: payload.sender.html_url
                 },
-                url: payload.commit.url,
+                url: payload.comment.html_url,
                 title,
                 description: payload.comment.body
             }
@@ -67,42 +84,67 @@ export default function FetchEmbed(payload: any, event: EventType): CustomEmbed 
             MessageEmbed = {
                 color: 'F5DA81',
                 author: {
-                    name: payload.release.author.login,
-                    icon_url: payload.release.author.avatar_url,
-                    url: payload.release.author.html_url
+                    name: payload.sender.login,
+                    icon_url: payload.sender.avatar_url,
+                    url: payload.sender.html_url
                 },
                 url: payload.review._links.html.href,
-                title: `[${payload.repository.full_name}] Pull request review submitted: #${payload.pull_request.id} ${payload.pull_request.title}`
+                title: `[${payload.repository.full_name}] Pull request review submitted: #${payload.pull_request.number} ${payload.pull_request.title}`
             }
             break;
         }
         case 'pull_request': {
-            if(payload.action === 'opened') {
-                MessageEmbed = {
-                    color: 'A9F5A9',
-                    url: payload.pull_request.url,
-                    title: `[${payload.repository.full_name}] Pull request opened: #${payload.pull_request.id} ${payload.pull_request.title}`,
-                    description: payload.pull_request.body,
+            switch(payload.action) {
+                case 'opened': {
+                    MessageEmbed = {
+                        color: 'A9F5A9',
+                        author: {
+                            name: payload.sender.login,
+                            icon_url: payload.sender.avatar_url,
+                            url: payload.sender.html_url
+                        },
+                        url: payload.pull_request.url,
+                        title: `[${payload.repository.full_name}] Pull request opened: #${payload.pull_request.number} ${payload.pull_request.title}`,
+                        description: payload.pull_request.body,
+                    }
+                    break;
                 }
-            } else {
-                MessageEmbed = {
-                    color: payload.pull_request.merged ? 'D358F7':'FE2E2E',
-                    url: payload.pull_request.url,
-                    title: `[${payload.repository.full_name}] Pull request ${payload.pull_request.merged ? 'merged':'closed'} : #${payload.pull_request.id} ${payload.pull_request.title}`
+                case 'reopened' : {
+                    MessageEmbed = {
+                        color: 'A9F5A9',
+                        author: {
+                            name: payload.sender.login,
+                            icon_url: payload.sender.avatar_url,
+                            url: payload.sender.html_url
+                        },
+                        url: payload.pull_request.url,
+                        title: `[${payload.repository.full_name}] Pull request reopened: #${payload.pull_request.number} ${payload.pull_request.title}`,
+                        description: payload.pull_request.body,
+                    }
+                    break;
+                }
+
+                case 'closed': {
+                    MessageEmbed = {
+                        color: payload.pull_request.merged ? 'D358F7' : 'FE2E2E',
+                        author: {
+                            name: payload.sender.login,
+                            icon_url: payload.sender.avatar_url,
+                            url: payload.sender.html_url
+                        },
+                        url: payload.pull_request.url,
+                        title: `[${payload.repository.full_name}] Pull request ${payload.pull_request.merged ? 'merged' : 'closed'} : #${payload.pull_request.number} ${payload.pull_request.title}`
+                    }
+                    break;
+                }
+                default: {
+                    return;
                 }
             }
+            break;
         }
         default: {
-            MessageEmbed = {
-                color: 'F5DA81',
-                author: {
-                    name: payload.release.author.login,
-                    icon_url: payload.release.author.avatar_url,
-                    url: payload.release.author.html_url
-                },
-                url: payload.commit.url,
-                title: 'Nothing'
-            }
+            return;
         }
     }
     return MessageEmbed;

@@ -1,4 +1,4 @@
-import { ServerConfig, HookConfig, ClientGithub } from '../server.d'
+import { ServerConfig, HookConfig, ClientGithub, EventType} from '../server.d'
 import Server from '../server'
 import { Webhook } from './webhook';
 export default class WebhookHandler {
@@ -17,8 +17,8 @@ export default class WebhookHandler {
         for(let i = 0; i < Repos.length; i++) {
             if(!this.isValidHook(Repos[i])) return;
             const webhook: Webhook | undefined = await this.app.APIHandler.getWebhook(Repos[i].repo);
-            if(!webhook) await this.createWebhook(Repos[i].repo, Repos[i].channel);
-            else await this.updateWebhook(Repos[i].repo, webhook.id, Repos[i].channel);
+            if(!webhook) await this.createWebhook(Repos[i].repo, Repos[i].channel, Repos[i].events as Array<EventType>);
+            else await this.updateWebhook(Repos[i].repo, webhook.id, Repos[i].channel, Repos[i].events as Array<EventType>);
         }
     }
     async LinkHooksToClient(client: ClientGithub): Promise<void> {
@@ -27,25 +27,25 @@ export default class WebhookHandler {
             client['hooks'].push(this._data[i])
         }
     }
-    async createWebhook(repo: string, channel: string): Promise<void> {
-        const webhook: Webhook = await this.app.APIHandler.createWebhook(repo) as Webhook;
+    async createWebhook(repo: string, channel: string, events: Array<EventType>): Promise<void> {
+        const webhook: Webhook = await this.app.APIHandler.createWebhook(repo, events) as Webhook;
         this._data.push({ id: webhook.id, repo: repo, channel })
     }
-    async updateWebhook(repo: string, id: number, channel: string): Promise<void> {
-        const webhook = await this.app.APIHandler.updateWebhook(repo, id) as Webhook;
+    async updateWebhook(repo: string, id: number, channel: string, events: Array<EventType>): Promise<void> {
+        const webhook = await this.app.APIHandler.updateWebhook(repo, id, events) as Webhook;
         this._data.push({id: webhook.id, repo: repo, channel});
     }
-    
+
     async pingAll(): Promise<void> {
         for(let i = 0; i < this._data.length; i++ ) {
             await this.app.APIHandler.pingWebhook(this._data[i].id, this._data[i].repo);
         }
     }
     isRegisteredWebhook(id: string): boolean {
-        return this._data.findIndex(wb => wb.id === parseInt(id)) >= 0 ? true:false
+        return this._data.findIndex(wb => wb.id === parseInt(id)) >= 0
     }
     isValidHook(hook: HookConfig): boolean {
-        const MustHaveProperties: Array<"channel"|"repo"> = ["channel", "repo"];
+        const MustHaveProperties: Array<"channel"|"repo" | "events"> = ["channel", "repo", "events"];
         let validity = true;
         for(let i = 0; i < MustHaveProperties.length; i++) {
             if(!hook[MustHaveProperties[i]]) {

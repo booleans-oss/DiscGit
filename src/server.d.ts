@@ -12,7 +12,8 @@ export type EventType = "check_run" | "check_suite" | "code_scanning_alert" | "c
 export interface HookConfig {
     channel: string,
     repo: string,
-    id: number
+    id: number,
+    events?: Array<EventType>
 }
 export interface CommitAuthor {
     name: string,
