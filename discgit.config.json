@@ -1,0 +1,12 @@
+{
+    "owner": "booleans-oss",
+    "port": 3000,
+    "token": "a4230df7d96f20cebb999b0d0345dc9064fda0ac",
+    "secret": "booleanslebg",
+    "repos": [
+       {
+           "repo": "DiscGit",
+           "channel": "723819684541104179"
+       }
+    ]
+}

@@ -1,0 +1,11 @@
+src
+tsconfig.json
+.env
+.eslintrc.json
+.gitignore
+.npmignore
+.prettierrc.json
+package-lock.json
+webpack.config.js
+yarn.lock
+discgit.config.json
