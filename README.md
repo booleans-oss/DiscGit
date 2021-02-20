@@ -16,7 +16,7 @@ A powerful package to create Github Webhooks and link to Discord.js.
   </p>
 </div>
 
-Discgit is a Node.js package which allows users to create webhooks on their public and private Github repos and connect them to their Discord.js bot in order to receive every notification.
+Discgit is a [Node.js](https://nodejs.dev/) package which allows users to create webhooks on their public and private [Github](https://github.com/) repos and connect them to their [Discord.js](https://discord.js.org/#/) bot in order to receive every notification.
 # Table of contents
 - [Installation](#installation)
 - [Usage](#usage)
@@ -45,7 +45,7 @@ $ yarn add discgit
 ```
 
 # <a name="usage"></a> Usage 
-The following examples use CommonJS import. If using ES6 import, or Typescript, see: [Typescript](#Typescript)
+The following examples use CommonJS import. ES6 import work the same way.
 ```js
 const Discgit = require('discgit');
 Discgit(client)
@@ -110,12 +110,12 @@ Key | Type | Required | Default | Description
 **type** | ``repository`` or ``organization`` | ``true`` | ``null`` | Type of repository the webhook should listen to as Organizations and Repositories hooks will behave differently.
 **owner**  | ``string``  | ``true`` | ``null`` |  Name of the repository's owner or the name of the organization
 **repo** | ``string`` | required if repository | ``null`` | The name of the repository the webhook will listen to.
-**events** | ``Array<WebhookEvents>`` | ``false`` | ``['push', 'star', 'fork']`` | The different the webhook will listen to and send POST request when occuring
+**events** | ``Array<WebhookEvents>`` | ``false`` | ``['push', 'star', 'fork']`` | The different the webhook will listen to and send POST request when occurring
 **channel** | ``string`` | ``true`` | ``null`` | ID of the Guild's channel the bot will send the notifications on Discord
 
 ## <a name="link-to-discord"></a> Linking with Discord
 ```js
-const Discprd = require('discord.js')
+const Discord = require('discord.js')
 const Client = new Discord.Client();
 // Creating a Client instance
 
@@ -125,10 +125,10 @@ const Discgit = require('discgit');
 Discgit(Client)
 // Linking the bot to the package
 ```
-The first and only parameter that the root function is the Client Instance. By doing so, the package will be able to declare and emit the custom event when receiving a request if the user has not defined its own event.
+The first and only parameter that the root function is the *Client Instance*. By doing so, the package will be able to declare and emit the custom event when receiving a request if the user has not defined its own event.
 
 # <a name="receiving-request"></a> Receiving Requests
-As the HTTP server is set up, the server will emit the event ``Webhook-Event`` on the client instance. The module allows the user to create its own ``Webhook-Event`` as long as it is declared in the bot instance. The event has two parameters:
+As the [HTTP](https://nodejs.dev/learn/the-nodejs-http-module/) server is set up, the server will emit the event ``Webhook-Event`` on the client instance. The module allows the user to create its own ``Webhook-Event`` as long as it is declared in the bot instance. The event has two parameters:
 
 Key | Type | Description
 :---- | ----- | -----: 
@@ -160,7 +160,7 @@ client.on('Webhook-Event', (payload, event) => {
 
 ### <a name="github-events"></a> Github Events
 
-The list of available events is published on [Github's Webhooks API] however, the default event handler only supports few of them (we will add more): 
+The list of available events is published on [Github's Webhooks API](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads) however, the default event handler only supports few of them (we will add more): 
 - push
 - start
 - fork
@@ -172,7 +172,7 @@ The list of available events is published on [Github's Webhooks API] however, th
 - release
 
 ### <a name="event-paylod"></a> Event Payload
-The payload sent by Github's API is different for each event which is why the format of the payload will only contain the properties common to all webhooks' payload. **It is recommended to check out Github's Documentation in order to find the different properties for each event's payload.**
+The payload sent by [Github's API](https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads) is different for each event which is why the format of the payload will only contain the properties common to all webhooks' payload. **It is recommended to check out Github's Documentation in order to find the different properties for each event's payload.**
 
 | Key | Type | Description
 -----: | :-----: | :------
