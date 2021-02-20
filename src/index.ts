@@ -5,7 +5,4 @@ module.exports = function (client: Client):Server {
   return new Server(client);
 }
 module.exports.fetchEmbed = EventHandler;
-const DiscGit = (client: Client):Server => {
-  return new Server(client);
-}
 
