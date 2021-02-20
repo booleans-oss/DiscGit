@@ -22,23 +22,6 @@ module.exports = {
     resolve: {
         extensions: ['.ts', '.js', '.json'],
     },
-    plugins: [new CleanWebpackPlugin()],
-    optimization: {
-        minimize: true,
-        minimizer: [
-            new TerserPlugin({
-                extractComments: true,
-                terserOptions: {
-                    output: {
-                        comments: false,
-                    },
-                    mangle: false,
-                    keep_classnames: true,
-                    keep_fnames: true,
-                },
-            }),
-        ],
-    },
     module: {
         rules: [
             {
