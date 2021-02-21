@@ -1,6 +1,13 @@
 import { CustomEmbed, EventType } from "../server.d";
-import { beautifyCommits } from "../utils/util";
+import { Utils } from "../utils";
 
+/**
+ * Fetch the embed for the specific Github Events
+ * @param {GithubPayload} payload - Request payload
+ * @param {GithubEvent} event - Github Event
+ * @constructor
+ * @return {MessageEmbed | undefined} Result MessageEmbed
+ */
 export default function FetchEmbed(
   payload: any,
   event: EventType
@@ -38,7 +45,7 @@ export default function FetchEmbed(
             payload.commits.length > 1 ? "s" : ""
           }`,
           url: `${payload.repository.html_url}/commits/${payload.after}`,
-          description: beautifyCommits(payload),
+          description: Utils.beautifyCommits(payload),
         };
       }
       break;

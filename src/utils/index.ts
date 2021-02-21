@@ -1,3 +1,4 @@
 import Config from "./Config";
 import APIHandler from "./APIHandler";
-export { Config, APIHandler };
+import * as Utils from './util'
+export { Config, APIHandler, Utils };

@@ -1,6 +1,15 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { GithubEventHeader, GithubIdHeader } from "./constants";
 import Server from "./server";
 
+/**
+ * Request handler to fetch payload from Github's API POST Requests
+ * @param {HTTPServer} HTTP Server
+ * @param {IncomingMessage} The request sent by API
+ * @param {ServerResponse} Server response
+ * @return {void}
+ * @constructor
+ */
 export default function RequestHandler(
   server: Server,
   request: IncomingMessage,
@@ -11,7 +20,7 @@ export default function RequestHandler(
   if (
     request.method !== "POST" ||
     !server.webhooks.isRegisteredWebhook(
-      request.headers["x-github-hook-id"] as string
+      request.headers[GithubIdHeader] as string
     )
   )
     return;
@@ -24,7 +33,7 @@ export default function RequestHandler(
   request.on("end", function () {
     const data = JSON.parse(body);
     if (
-      request.headers["x-github-event"] === "ping" &&
+      request.headers[GithubEventHeader] === "ping" &&
       server._config.log === true
     ) {
       console.log(
@@ -37,8 +46,8 @@ export default function RequestHandler(
       "Webhook-Event",
       server.client,
       data,
-      request.headers["x-github-event"],
-      request.headers["x-github-hook-id"]
+      request.headers[GithubEventHeader],
+      request.headers[GithubIdHeader]
     );
   });
 }

@@ -108,6 +108,7 @@ export interface GitCommit {
   removed: [];
   modified: [];
 }
+export type IMustHaveProperties = Array<"type" | "channel" | "repo" | "events" | "owner">
 export interface ClientGithub extends Client {
   hooks: Array<HookConfig>;
 }
