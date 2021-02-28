@@ -1,64 +1,62 @@
-import Server from "../server";
+
 import { ServerConfig, ConfigType } from "../server.d";
-import { DEFAULT_CONFIG, ConfigRootpath } from "../constants";
-import fs from "fs";
+import { DEFAULT_CONFIG } from "../constants";
 import {
   Utils
 } from "./";
-import path from "path";
 
 /**
  * Config Manager
  * @class Config
  */
-export default class Config {
+export default class ConfigManager {
   /**
    * Configuration data
-   * @private
    */
-  private _data: ServerConfig | undefined = undefined;
+  _data: ServerConfig | undefined = undefined;
 
   /**
    * Parse the config file in order to fetch information
-   * @return {void} Set {@link this._data} to result config
-   * @throw if no config file found
+   * Set {@link this._data} to result config
+   * @return {Promise<ServerConfig>} Return the new ServerConfig
+   * @throws if no config file found
    */
-  registry(): void {
-    const ConfigFile = fs.readFileSync(ConfigRootpath);
-    if(!ConfigFile) throw `No config file!`
-    this._data = JSON.parse(ConfigFile as unknown as string);
+  async registry(): Promise<ServerConfig> {
+    const configPath = Utils.resolveConfigPath();
+    const { default: configFile} = await import(configPath);
+      if(!configFile) throw new Error(`No config file!`);
+      this._data = configFile;
+      this.verify();
+      return this._data as ServerConfig;
   }
 
   /**
    * Check the original config file
    * If missing required property, throw error of the specific property
    * If missing non-required property, set it with {@link DEFAULT_CONFIG}
-   * @param {Server} HTTP Server
+   * @param {serverConfig} Actual Config
    * @returns {ServerConfig}
    * @throws if missing required field
    */
-  verify(app: Server): ServerConfig {
-    this.registry();
-    const ConfigFields: Array<ConfigType> = [
-      "secret",
-      "token",
-      "repos",
-      "port",
-      "log",
+  verify(configObject: ServerConfig | undefined = this._data): ServerConfig {
+    const ConfigFields: Array<[ConfigType, boolean]> = [[
+      "secret", false],
+      ["token", true],
+      ["repos", true],
+      ["port", false],
+      ["log", false]
     ];
-    for (let i = 0; i < ConfigFields.length; i++) {
-      const value = Utils.getPropertyValue(this._data, ConfigFields[i] as never);
-      if (!value) {
-        if (!Utils.hasPropertyValue(DEFAULT_CONFIG, ConfigFields[i] as never)) {
-          throw `Missing mandatory value: ${ConfigFields[i]} in config file.`;
+    for(let i = 0; i < ConfigFields.length; i++) {
+      const value = Utils.getPropertyValue(configObject, ConfigFields[i][0] as never);
+      if(!value) {
+        if(ConfigFields[i][1] && !Utils.hasPropertyValue(configObject, ConfigFields[i][0] as never)) {
+          throw new Error(`Missing mandatory value: ${ConfigFields[i][0]} in config file.`);
         }
-        Utils.updatePropertyValue(
-          this._data,
-          ConfigFields[i] as never,
-          Utils.getPropertyValue(DEFAULT_CONFIG, ConfigFields[i] as never)
-        );
+        if(!ConfigFields[i][1]) {
+          configObject = Utils.updatePropertyValue(configObject, ConfigFields[i][0] as never, DEFAULT_CONFIG[ConfigFields[i][0] as never]);
+        }
       }
     }
-    return this._data as ServerConfig;
+    return configObject as ServerConfig;
   }
 }

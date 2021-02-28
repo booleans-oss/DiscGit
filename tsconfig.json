@@ -15,5 +15,12 @@
     "sourceMap": false,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "typedocOptions": {
+    "entryPoints": ["src/server.ts", "src/RequestHandler.ts", "src/utils/APIHandler.ts", "src/utils/Config.ts", "src/utils/DefaultListenner.ts", "src/utils/EventHandler.ts", "src/utils/util.ts"],
+    "out": "docs"
+  },
+  "exclude": [
+    "./test"
+  ]
 }

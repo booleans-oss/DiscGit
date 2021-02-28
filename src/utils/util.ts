@@ -1,5 +1,6 @@
 import { GitCommit } from "../server.d";
-
+import path from 'path'
+import fs from 'fs'
 /**
  * Get the value of property in object
  * @param {T} Object
@@ -37,8 +38,9 @@ export function updatePropertyValue<T, K extends keyof T>(
   object: T,
   index: K,
   value: T[K]
-): T[K] {
-  return (object[index] = value);
+): T {
+  object[index] = value
+  return object;
 }
 
 /**
@@ -85,7 +87,26 @@ function LinearizeCommit(sentence: string): Array<string> {
   return [id, message, auteur];
 }
 
-
+/**
+ * Resolve if the type is repository or not
+ * @param {string} Type of the repository/organization
+ * @returns {boolean} if repo is a repo or an organization 
+ */
 export function isRepo(type: string): boolean {
   return type === 'repository'
+}
+
+
+/**
+ * Resolve extension of the config file and verify if it is valid
+ * @param {string} Name of the config file
+ * @returns {string} Extension of the configuration file
+ * @throws if configuration file was not found or language extension is not valid
+ */
+export function resolveConfigPath(): string {
+  const ConfigFile = fs.readdirSync(process.cwd()).find(file => file.startsWith('discgit.config.'));
+  if(!ConfigFile) throw new Error(`No config file found`);
+  const extension: string = ConfigFile.split(".")[2];
+  if(!["js", "json"].includes(extension)) throw new Error(`Invalid configuration file extension`);
+  return path.join(process.cwd(), ConfigFile);
 }

@@ -7,7 +7,7 @@ export interface ServerConfig {
   repos: Array<HookConfig>;
 }
 
-export type ConfigType = "secret" | "token" | "repos" | "port" | "log";
+export type ConfigType = "secret" | "token" | "repos" | "port" | "log"
 export type EventType =
   | "check_run"
   | "check_suite"

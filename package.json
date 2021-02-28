@@ -4,8 +4,9 @@
   "description": "A powerful package to create Github Webhooks and link to Discord.js.",
   "main": "dist/index.js",
   "scripts": {
-    "run:dev": "ts-node src/index.ts",
+    "run:dev": "ts-node test/index.ts",
     "run:build": "node ./dist/index.js",
+    "test": "jest",
     "build": "tsc",
     "clean": "rm -rf ./dist"
   },
@@ -26,14 +27,18 @@
   },
   "homepage": "https://github.com/booleans-oss/DiscGit#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.20",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
     "discord.js": "^12.5.1",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "jest": "^26.6.3",
     "prettier": "^2.2.1",
+    "ts-jest": "^26.5.1",
     "ts-node": "^9.1.1",
+    "typedoc": "^0.20.27",
     "typescript": "^4.1.5"
   },
   "dependencies": {

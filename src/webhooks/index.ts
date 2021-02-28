@@ -140,7 +140,7 @@ export default class WebhookManager {
 
   /**
    * Ping all the current webhooks for Github to mark them as active
-   * @throw if ping is not received
+   * @throws if ping is not received
    * @return Promise<void>
    */
   async pingAll(): Promise<void> {
@@ -170,10 +170,9 @@ export default class WebhookManager {
    */
   isValidHook(hook: HookData): boolean {
     const MustHaveProperties: IMustHaveProperties = ["type", "channel", "repo", "events", "owner"];
-    let validity = true;
     for (let i = 0; i < MustHaveProperties.length; i++) {
       if (!hook[MustHaveProperties[i]]) {
-        throw `Required ${MustHaveProperties[i]} for webhook`;
+        throw new Error(`Required ${MustHaveProperties[i]} for webhook`);
       }
     }
     return hook.events.some((event) => !EVENTS.includes(event));

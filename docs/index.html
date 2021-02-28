@@ -1,0 +1,449 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>discgit</title>
+	<meta name="description" content="Documentation for discgit">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">discgit</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>discgit</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p>A powerful package to create Github Webhooks and link to Discord.js.</p>
+				<div align="center">
+					<br />
+					<p>
+						<a href="https://github.com/booleans-oss/Discgit"><img src="https://i.imgur.com/AUGULdM.png" width="546" alt="discgit" /></a>
+					</p>
+					<br />
+					<p>
+						<a href="https://www.npmjs.com/package/discgit"><img src="https://img.shields.io/badge/npm-1.0.6-blueviolet" alt="NPM version" /></a>
+						<a href="https://www.npmjs.com/package/discgit"><img src="https://img.shields.io/badge/download-0-informational" alt="NPM downloads" /></a>
+						<a href="https://github.com/booleans-oss/discgit/actions"><img src="https://github.com/discordjs/discord.js/workflows/Testing/badge.svg" alt="Build status" /></a>
+					</p>
+					<p>
+						<a href="https://nodei.co/npm/discgit/"><img src="https://nodei.co/npm/discgit.png?downloads=true&stars=true" alt="npm installnfo" /></a>
+					</p>
+				</div>
+				<p>Discgit is a <a href="https://nodejs.dev/">Node.js</a> package which allows users to create webhooks on their public and private <a href="https://github.com/">Github</a> repos and connect them to their <a href="https://discord.js.org/#/">Discord.js</a> bot in order to receive every notification.</p>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h1>Table of contents</h1>
+				</a>
+				<ul>
+					<li><p><a href="#installation">Installation</a></p>
+					</li>
+					<li><p><a href="#usage">Usage</a></p>
+					</li>
+					<li><p><a href="#getting-started">Getting started</a></p>
+						<ul>
+							<li><a href="#configuration">Configuration</a><ul>
+									<li><a href="#config-file">Config File</a></li>
+									<li><a href="#auth-token">Auth Token</a></li>
+									<li><a href="#hook-config">Hook Config</a></li>
+								</ul>
+							</li>
+							<li><a href="#link-to-discord">Link to Discord</a></li>
+							<li><a href="#receiving-request">Receiving requests</a></li>
+							<li><a href="#fetching-embed">Fetching Embed</a></li>
+						</ul>
+					</li>
+					<li><p><a href="#payload-events">Payload and Events</a></p>
+						<ul>
+							<li><a href="#github-events">Github Events</a></li>
+							<li><a href="#event-payload">Event payload</a></li>
+						</ul>
+					</li>
+					<li><p><a href="#FAQ">FAQ</a></p>
+						<a href="#-installation" id="-installation" style="color: inherit; text-decoration: none;">
+							<h1><a name="installation"></a> Installation</h1>
+						</a>
+						<p>Using npm: </p>
+						<pre><code class="language-bash"><span style="color: #000000">$ npm install discgit</span>
+</code></pre>
+					</li>
+				</ul>
+				<p>Using yarn</p>
+				<pre><code class="language-bash"><span style="color: #000000">$ yarn add discgit</span>
+</code></pre>
+				<a href="#-usage" id="-usage" style="color: inherit; text-decoration: none;">
+					<h1><a name="usage"></a> Usage</h1>
+				</a>
+				<p>The following examples use CommonJS import. ES6 import work the same way.</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Discgit</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;discgit&#039;</span><span style="color: #000000">);</span>
+<span style="color: #795E26">Discgit</span><span style="color: #000000">(</span><span style="color: #001080">client</span><span style="color: #000000">)</span>
+</code></pre>
+				<p>Receiving a <code>push event</code>:</p>
+				<pre><code class="language-js"><span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;GithubEvent&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">payload</span><span style="color: #000000">, </span><span style="color: #001080">event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {  </span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">payload</span><span style="color: #000000">) </span><span style="color: #008000">// will log the information for the event</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">event</span><span style="color: #000000">) </span><span style="color: #008000">// will log &quot;push&quot;</span>
+<span style="color: #000000"> });</span>
+</code></pre>
+				<a href="#-getting-started" id="-getting-started" style="color: inherit; text-decoration: none;">
+					<h1><a name="getting-started"></a> Getting Started</h1>
+				</a>
+				<a href="#-configuration" id="-configuration" style="color: inherit; text-decoration: none;">
+					<h2><a name="configuration"></a> Configuration</h2>
+				</a>
+				<p>In order to create the different webhooks, the package requires a <code>discgit.config.json</code> file in the root folder of your project. <strong>It is very important to name the file <code>discgit.config.json</code> as well as putting it in the root folder.</strong></p>
+				<a href="#-configuration-file" id="-configuration-file" style="color: inherit; text-decoration: none;">
+					<h2><a name="config-file"></a> Configuration file</h2>
+				</a>
+				<p>The configuration file contains the different information for the Github user:</p>
+				<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;token&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;Personal Access Token&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;secret&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;HTTP Request Secret&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;port&quot;</span><span style="color: #000000">: </span><span style="color: #098658">3000</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;log&quot;</span><span style="color: #000000">: </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;repos&quot;</span><span style="color: #000000">: []</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<table>
+					<thead>
+						<tr>
+							<th align="left">Key</th>
+							<th align="center">Type</th>
+							<th align="center">Required</th>
+							<th align="center">Default</th>
+							<th align="right">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="left"><strong>token</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="center"><code>true</code></td>
+							<td align="center"><code>null</code></td>
+							<td align="right">The Personal Github Auth Token that will allow webhooks to reach the repo/organization</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>secret</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="center"><code>false</code></td>
+							<td align="center"><code>DiscGit-WB</code></td>
+							<td align="right">Secret that will be used in order to secure the different HTTP Request sent to Github and received by Github</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>port</strong></td>
+							<td align="center"><code>number</code></td>
+							<td align="center"><code>false</code></td>
+							<td align="center"><code>3000</code></td>
+							<td align="right">Port used by the HTTP server in order to listen and receive the different POST request sent by Github</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>logs</strong></td>
+							<td align="center"><code>boolean</code></td>
+							<td align="center"><code>false</code></td>
+							<td align="center"><code>false</code></td>
+							<td align="right">If the application should log the different information about the server/hooks (ping, events)</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>repos</strong></td>
+							<td align="center"><code>Array&lt;HookConfig</code></td>
+							<td align="center"><code>true</code></td>
+							<td align="center"><code>null</code></td>
+							<td align="right">Array of the different hooks the app will listen to</td>
+						</tr>
+				</tbody></table>
+				<a href="#-auth-token" id="-auth-token" style="color: inherit; text-decoration: none;">
+					<h3><a name="auth-token"></a> Auth Token</h3>
+				</a>
+				<p>In order for the package to access the required repos and organizations, A personal Access Token is needed in the configuration file. This token is mandatory for the package to work. <strong>The package will not store the token in a database.</strong> The package only uses the token as it is required in the different HTTP Request.
+					To get this token, the user must create its own on this link: <a href="https://github.com/settings/tokens/new">New Personal Access Token</a> or by going on <code>Github</code> -&gt; <code>Settings</code> -&gt; <code>Developer settings</code> -&gt; <code>Personal access tokens</code> -&gt; <code>New personal access token</code>.
+				For the package to work perfectly, few options need to be checked:</p>
+				<ul>
+					<li><code>admin:repo_hook</code>: to be able to read and write the different repo&#39;s hooks</li>
+					<li><code> admin: org_hook</code>: to be able to read and write the different org&#39;s hooks</li>
+				</ul>
+				<a href="#-hookconfig" id="-hookconfig" style="color: inherit; text-decoration: none;">
+					<h3><a name="hook-config"></a> HookConfig</h3>
+				</a>
+				<pre><code class="language-json"><span style="color: #000000">{</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;type&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;repository&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;owner&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;booleans-oss&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;repo&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;DiscGit&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;events&quot;</span><span style="color: #000000">: [</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;push&quot;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #A31515">&quot;start&quot;</span>
+<span style="color: #000000">  ],</span>
+<span style="color: #000000">  </span><span style="color: #0451A5">&quot;channel&quot;</span><span style="color: #000000">: </span><span style="color: #A31515">&quot;ID_CHANNEL&quot;</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<table>
+					<thead>
+						<tr>
+							<th align="left">Key</th>
+							<th align="center">Type</th>
+							<th align="center">Required</th>
+							<th align="center">Default</th>
+							<th align="right">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="left"><strong>type</strong></td>
+							<td align="center"><code>repository</code> or <code>organization</code></td>
+							<td align="center"><code>true</code></td>
+							<td align="center"><code>null</code></td>
+							<td align="right">Type of repository the webhook should listen to as Organizations and Repositories hooks will behave differently.</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>owner</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="center"><code>true</code></td>
+							<td align="center"><code>null</code></td>
+							<td align="right">Name of the repository&#39;s owner or the name of the organization</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>repo</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="center">required if repository</td>
+							<td align="center"><code>null</code></td>
+							<td align="right">The name of the repository the webhook will listen to.</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>events</strong></td>
+							<td align="center"><code>Array&lt;WebhookEvents&gt;</code></td>
+							<td align="center"><code>false</code></td>
+							<td align="center"><code>[&#39;push&#39;, &#39;star&#39;, &#39;fork&#39;]</code></td>
+							<td align="right">The different the webhook will listen to and send POST request when occurring</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>channel</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="center"><code>true</code></td>
+							<td align="center"><code>null</code></td>
+							<td align="right">ID of the Guild&#39;s channel the bot will send the notifications on Discord</td>
+						</tr>
+				</tbody></table>
+				<a href="#-linking-with-discord" id="-linking-with-discord" style="color: inherit; text-decoration: none;">
+					<h2><a name="link-to-discord"></a> Linking with Discord</h2>
+				</a>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Discord</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;discord.js&#039;</span><span style="color: #000000">)</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Client</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">Discord</span><span style="color: #000000">.</span><span style="color: #795E26">Client</span><span style="color: #000000">();</span>
+<span style="color: #008000">// Creating a Client instance</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Discgit</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;discgit&#039;</span><span style="color: #000000">);</span>
+<span style="color: #008000">// Importing the package</span>
+
+<span style="color: #795E26">Discgit</span><span style="color: #000000">(</span><span style="color: #001080">Client</span><span style="color: #000000">)</span>
+<span style="color: #008000">// Linking the bot to the package</span>
+</code></pre>
+				<p>The first and only parameter that the root function is the <em>Client Instance</em>. By doing so, the package will be able to declare and emit the custom event when receiving a request if the user has not defined its own event.</p>
+				<a href="#-receiving-requests" id="-receiving-requests" style="color: inherit; text-decoration: none;">
+					<h1><a name="receiving-request"></a> Receiving Requests</h1>
+				</a>
+				<p>As the <a href="https://nodejs.dev/learn/the-nodejs-http-module/">HTTP</a> server is set up, the server will emit the event <code>Webhook-Event</code> on the client instance. The module allows the user to create its own <code>Webhook-Event</code> as long as it is declared in the bot instance. The event has two parameters:</p>
+				<table>
+					<thead>
+						<tr>
+							<th align="left">Key</th>
+							<th>Type</th>
+							<th align="right">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="left"><strong>payload</strong></td>
+							<td>Object[GithubPayload]</td>
+							<td align="right">The payload sent by the Github POST Request containing the different information of the event</td>
+						</tr>
+						<tr>
+							<td align="left"><strong>event</strong></td>
+							<td>string</td>
+							<td align="right">The event that is triggered and sent to the HTTP Server</td>
+						</tr>
+				</tbody></table>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">fetchEmbed</span><span style="color: #000000"> } = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;discgit&#039;</span><span style="color: #000000">);</span>
+<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Webhook-Event&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">payload</span><span style="color: #000000">, </span><span style="color: #001080">event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #800000">&lt;</span><span style="color: #267F99">TextChannel</span><span style="color: #800000">&gt;</span><span style="color: #000000">.send(`New $</span><span style="color: #0000FF">{</span><span style="color: #001080">event</span><span style="color: #0000FF">}</span><span style="color: #000000"> event`)</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<p>However, the module offers the basic standard notification messages <strong>if the event <code>Webhook-Event</code> is not set by the user</strong>. The basic messages look just as the Discord&#39;s Github Webhooks messages.</p>
+				<a href="#fetching-default-message" id="fetching-default-message" style="color: inherit; text-decoration: none;">
+					<h1><a name="fetching-embed"></a>Fetching default message</h1>
+				</a>
+				<p>As the module provides a default event handler (when the event is not set), the package contains the basic message embed. It is also possible to set its own <code>Webhook-Event</code> but importing the default message builder in order to be able to modify it afterward.</p>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">fetchEmbed</span><span style="color: #000000"> } = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;discgit&#039;</span><span style="color: #000000">);</span>
+<span style="color: #008000">// Importing the default embed builder</span>
+<span style="color: #001080">client</span><span style="color: #000000">.</span><span style="color: #795E26">on</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Webhook-Event&#039;</span><span style="color: #000000">, (</span><span style="color: #001080">payload</span><span style="color: #000000">, </span><span style="color: #001080">event</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Declaring the webhook event</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">messageEmbed</span><span style="color: #000000"> = </span><span style="color: #795E26">fetchEmbed</span><span style="color: #000000">(</span><span style="color: #001080">payload</span><span style="color: #000000">, </span><span style="color: #001080">event</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Get the default Message Embed Object</span>
+<span style="color: #000000">    </span><span style="color: #001080">messageEmbed</span><span style="color: #000000">.</span><span style="color: #001080">title</span><span style="color: #000000"> = </span><span style="color: #A31515">&quot;Github Notification&quot;</span>
+<span style="color: #000000">    </span><span style="color: #008000">// Overwriting the default title of the embed</span>
+<span style="color: #000000">})</span>
+</code></pre>
+				<a href="#-payload-and-events" id="-payload-and-events" style="color: inherit; text-decoration: none;">
+					<h2><a name="payload-events"></a> Payload and Events</h2>
+				</a>
+				<a href="#-github-events" id="-github-events" style="color: inherit; text-decoration: none;">
+					<h3><a name="github-events"></a> Github Events</h3>
+				</a>
+				<p>The list of available events is published on <a href="https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads">Github&#39;s Webhooks API</a> however, the default event handler only supports few of them (we will add more): </p>
+				<ul>
+					<li>push</li>
+					<li>start</li>
+					<li>fork</li>
+					<li>pull_request</li>
+					<li>pull_request_review</li>
+					<li>pull_request_review_comment</li>
+					<li>issues</li>
+					<li>issue_comment</li>
+					<li>release</li>
+				</ul>
+				<a href="#-event-payload" id="-event-payload" style="color: inherit; text-decoration: none;">
+					<h3><a name="event-paylod"></a> Event Payload</h3>
+				</a>
+				<p>The payload sent by <a href="https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads">Github&#39;s API</a> is different for each event which is why the format of the payload will only contain the properties common to all webhooks&#39; payload. <strong>It is recommended to check out Github&#39;s Documentation in order to find the different properties for each event&#39;s payload.</strong></p>
+				<table>
+					<thead>
+						<tr>
+							<th align="right">Key</th>
+							<th align="center">Type</th>
+							<th align="left">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="right"><strong>action</strong></td>
+							<td align="center"><code>string</code></td>
+							<td align="left">The action of the event which depends on the event (e.g. <em>created</em>, <em>closed</em>, ...)</td>
+						</tr>
+						<tr>
+							<td align="right"><strong>sender</strong></td>
+							<td align="center"><code>object</code></td>
+							<td align="left">The user that is responsible of the event being triggered (the pusher, or the commiter)</td>
+						</tr>
+						<tr>
+							<td align="right"><strong>repository</strong></td>
+							<td align="center"><code>object</code></td>
+							<td align="left">The repository where the event was triggered.</td>
+						</tr>
+				</tbody></table>
+				<a href="#-faq" id="-faq" style="color: inherit; text-decoration: none;">
+					<h1><a name="faq"></a> FAQ</h1>
+				</a>
+				<blockquote>
+					<p>Should I commit my <code>discgit.config.json</code> file ?</p>
+				</blockquote>
+				<p><strong>ABSOLUTELY NOT</strong>. Your config file contains your Github Access Token. Publicly commiting your access token can compromise your whole Github profile even if you have configured it to only access hooks.</p>
+				<blockquote>
+					<p>How long does the event take to reach the bot ?</p>
+				</blockquote>
+				<p>The bot is directly connected to the HTTP server which means very low latency. However, latency can depend on your internet connection as well as Github API status. On average, pings take ~1 second to reach the HTTP server. </p>
+				<blockquote>
+					<p>I have an error with ngrok ?</p>
+				</blockquote>
+				<p>Ngrok is a NPM package which allow to connect local (<em>127.0.0.1</em>) servers to web servers (<em>ngrok.io</em>). Some firewall don&#39;t allow ngrok to link the web server to the local server. Unfortunatly, there is no solution. </p>
+				<blockquote>
+					<p>How do I know what the event payload look like ?</p>
+				</blockquote>
+				<p>The best advice is to look at Github&#39;s Webhook API which contains every payload for every event as they are all different. It is well-written and very easy to understand.</p>
+				<blockquote>
+					<p>Can I create different webhook for the same repo ?</p>
+				</blockquote>
+				<p>Unfortunatly no. The current code only allows one ngrok webhook. However, next releases involve the ability to have several webhooks for the same repo.</p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Modules</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/requesthandler.html">Request<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/server.html">server</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_apihandler.html">utils/APIHandler</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_config.html">utils/<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_defaultlistenner.html">utils/<wbr>Default<wbr>Listenner</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_eventhandler.html">utils/<wbr>Event<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_util.html">utils/util</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

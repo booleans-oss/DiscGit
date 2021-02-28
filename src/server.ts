@@ -3,10 +3,10 @@ import { ClientGithub, ServerConfig } from "./server.d";
 import { Client } from "discord.js";
 import RequestHandler from "./RequestHandler";
 import { connect } from "ngrok";
-import { Config, APIHandler } from "./utils";
+import { ConfigManager, APIHandler } from "./utils";
 import WebhookManager from "./webhooks";
 import DEFAULT_LISTENER from "./utils/DefaultListenner";
-import { eventName } from "./constants";
+import { DEFAULT_CONFIG, eventName } from "./constants";
 
 /**
  * Create the main HTTP Server
@@ -27,14 +27,14 @@ export default class Server {
   constructor(client: Client) {
 
     /**
-     * Fetching the config .json file
+     * Initializing Config with Default
      * @type {Config}
      * @method
+     * * Check config values
      * * @name verify
-     * * @param {Server} The main server instance
      * * @return {ServerConfig}
      */
-    this._config = new Config().verify(this);
+    this._config = DEFAULT_CONFIG as ServerConfig;
 
     /**
      * The bot instance
@@ -63,6 +63,7 @@ export default class Server {
   }
 
   async start(): Promise<void> {
+    await this.loadConfig();
     await this.loadTunnel();
     await this.webhooks.readWebhooks();
     await this.webhooks.LinkHooksToClient(this.client as ClientGithub);
@@ -72,6 +73,14 @@ export default class Server {
   }
 
   /**
+   * Loading the ConfigManager in order to load the config file
+   * @returns {Promise<void>}
+   */
+  async loadConfig():Promise<void> {
+    const ConfigHandler = new ConfigManager();
+    this._config = (await ConfigHandler.registry());
+  }
+  /**
    * Creating ngrok session localhost link
    * @return {Promise<void>}
    * @throws If port is already in use
@@ -80,7 +89,7 @@ export default class Server {
     try {
       this._url = await connect(this._config.port);
     } catch (e) {
-      throw `Unable to connect with port ${this._config.port}. Try using another port.`;
+      throw new Error(`Unable to connect with port ${this._config.port}. Try using another port.`);
     }
   }
 

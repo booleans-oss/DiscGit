@@ -53,7 +53,7 @@ export default class APIHandler extends Octokit {
         )
       ).data as Array<Webhook>;
     } catch (e) {
-      throw `Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`;
+      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`);
     }
     if (!webhooks) return;
     const RepoWebhooks = webhooks.filter((webhook: Webhook) =>
@@ -89,7 +89,7 @@ export default class APIHandler extends Octokit {
         )
       ).data as Webhook;
     } catch (e) {
-      throw `Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`;
+      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`);
     }
     return webhook;
   }
@@ -131,7 +131,7 @@ export default class APIHandler extends Octokit {
       );
       return await this.getWebhookById(owner, repo, data.id, type);
     } catch (e) {
-      throw `Unable to create webhook for repo: ${repo} due to error: ${e.message}`;
+      throw new Error(`Unable to create webhook for repo: ${repo} due to error: ${e.message}`);
     }
   }
 
@@ -163,7 +163,7 @@ export default class APIHandler extends Octokit {
         options as { owner: string; repo: string; hook_id: number }
       );
     } catch (e) {
-      throw `Unable to ping webhook for repo ${repo} due to error: ${e.message}`;
+      throw new Error(`Unable to ping webhook for repo ${repo} due to error: ${e.message}`);
     }
   }
 

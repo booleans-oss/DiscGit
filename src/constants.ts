@@ -3,6 +3,7 @@ import path from 'path'
 export const DEFAULT_CONFIG = {
   port: 3000,
   token: "TOKEN",
+  log: false,
   secret: "SECRET",
   owner: "TEST",
   repos: [],
@@ -25,8 +26,6 @@ export const EVENTS = [
 export const eventName = "Webhook-Event"
 export const GithubIdHeader = "x-github-hook-id"
 export const GithubEventHeader = 'x-github-event'
-
-export const ConfigRootpath = path.join(process.cwd(), "discgit.config.json");
 
 export const RepoHooksPath = '/repos/{owner}/{repo}/hooks'
 export const OrgHooksPath = '/orgs/{org}/hooks'

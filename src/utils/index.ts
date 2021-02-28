@@ -1,4 +1,4 @@
-import Config from "./Config";
+import ConfigManager from "./Config";
 import APIHandler from "./APIHandler";
 import * as Utils from './util'
-export { Config, APIHandler, Utils };
+export { ConfigManager, APIHandler, Utils };
