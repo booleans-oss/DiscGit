@@ -1,4 +1,6 @@
 src/
+/test
+/docs
 tsconfig.json
 .env
 .eslintrc.json
@@ -13,3 +15,4 @@ webpack.config.js
 npm-debug.log
 yarn.lock
 discgit.config.json
+jest.config.js
