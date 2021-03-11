@@ -6,15 +6,15 @@ A powerful package to create Github Webhooks and link to Discord.js.
     <a href="https://github.com/booleans-oss/Discgit"><img src="https://i.imgur.com/AUGULdM.png" width="546" alt="discgit" /></a>
   </p>
   <br />
-  <p>
-    <a href="https://www.npmjs.com/package/discgit"><img src="https://img.shields.io/badge/npm-1.0.6-blueviolet" alt="NPM version" /></a>
-    <a href="https://www.npmjs.com/package/discgit"><img src="https://img.shields.io/badge/download-0-informational" alt="NPM downloads" /></a>
-    <a href="https://github.com/booleans-oss/discgit/actions"><img src="https://github.com/discordjs/discord.js/workflows/Testing/badge.svg" alt="Build status" /></a>
-  </p>
-  <p>
     <a href="https://nodei.co/npm/discgit/"><img src="https://nodei.co/npm/discgit.png?downloads=true&stars=true" alt="npm installnfo" /></a>
   </p>
 </div>
+
+[![npm version](https://img.shields.io/npm/v/discgit.svg)](https://www.npmjs.org/package/discgit)
+[![Build Status](https://travis-ci.com/booleans-oss/DiscGit.svg?branch=master)](https://travis-ci.com/booleans-oss/DiscGit)
+[![Coverage Status](https://coveralls.io/repos/github/booleans-oss/DiscGit/badge.svg?branch=master)](https://coveralls.io/github/booleans-oss/DiscGit?branch=master)
+[![npm downloads](https://img.shields.io/npm/dm/discgit.svg)](http://npm-stat.com/charts.html?package=discgit)
+![GitHub contributors](https://img.shields.io/github/contributors/booleans-oss/Discgit)
 
 Discgit is a [Node.js](https://nodejs.dev/) package which allows users to create webhooks on their public and private [Github](https://github.com/) repos and connect them to their [Discord.js](https://discord.js.org/#/) bot in order to receive every notification.
 # Table of contents
