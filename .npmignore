@@ -16,3 +16,5 @@ npm-debug.log
 yarn.lock
 discgit.config.json
 jest.config.js
+.travis.yml
+.coveralls.yml
