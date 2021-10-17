@@ -22,7 +22,7 @@ export default class Server {
   webhooks: WebhookManager;
 
   /**
-   * @param {Client} The bot instance
+   * @param {Client} client - The bot instance
    */
   constructor(client: Client) {
 
@@ -59,7 +59,7 @@ export default class Server {
      * @type {HTTPServer}
      */
     this.server = _http.createServer(RequestHandler.bind(this, this));
-    this.start();
+    void this.start();
   }
 
   async start(): Promise<void> {

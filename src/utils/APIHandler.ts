@@ -11,8 +11,12 @@ import { OrgHooksPath, RepoHooksPath, RepoGetHookPath, OrgGetHookPath, RepoHookP
  */
 export default class APIHandler extends Octokit {
 
+  _config: ServerConfig
+
+  _app: Server
+
   /**
-   * @param {Server} Main HTTP server
+   * @param {Server} app - the base server
    */
   constructor(app: Server) {
     super({ auth: app._config.token });
@@ -52,8 +56,8 @@ export default class APIHandler extends Octokit {
           options as { owner: string; repo: string }
         )
       ).data as Array<Webhook>;
-    } catch (e) {
-      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`);
+    } catch (e: any) {
+      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${(<Error>e).message}`);
     }
     if (!webhooks) return;
     const RepoWebhooks = webhooks.filter((webhook: Webhook) =>
@@ -88,8 +92,8 @@ export default class APIHandler extends Octokit {
           options as { owner: string; repo: string; hook_id: number }
         )
       ).data as Webhook;
-    } catch (e) {
-      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${e.message}`);
+    } catch (e:any) {
+      throw new Error(`Unable to fetch webhook for repo: ${repo} due to error: ${(<Error>e).message}`);
     }
     return webhook;
   }
@@ -100,7 +104,7 @@ export default class APIHandler extends Octokit {
    * @param {string} owner - Owner of the repo/organization
    * @param {string} repo - Name of the repo/organization
    * @param {string} type - Type "repository" or "organization"
-   * @params {Array<string>} events - Events the webhook will listen to
+   * @param {Array<string>} events - Events the webhook will listen to
    * @return {Promise<Webhook | never | undefined>}  The new webhook for the repo
    * @throws if unable to create the webhook
    */
@@ -130,8 +134,8 @@ export default class APIHandler extends Octokit {
         options as { owner: string; repo: string; config: any }
       );
       return await this.getWebhookById(owner, repo, data.id, type);
-    } catch (e) {
-      throw new Error(`Unable to create webhook for repo: ${repo} due to error: ${e.message}`);
+    } catch (e:any) {
+      throw new Error(`Unable to create webhook for repo: ${repo} due to error: ${(<Error>e).message}`);
     }
   }
 
@@ -162,8 +166,8 @@ export default class APIHandler extends Octokit {
           : `POST ${OrgHookPingPath}`,
         options as { owner: string; repo: string; hook_id: number }
       );
-    } catch (e) {
-      throw new Error(`Unable to ping webhook for repo ${repo} due to error: ${e.message}`);
+    } catch (e:any) {
+      throw new Error(`Unable to ping webhook for repo ${repo} due to error: ${(<Error>e).message}`);
     }
   }
 
@@ -175,7 +179,7 @@ export default class APIHandler extends Octokit {
    * @param {string} repo - Name of the repo/organization
    * @param {number} id - ID of the webhook
    * @param {string} type - Type "repository" or "organization"
-   * @params {Array<string>} events - Events the webhook will listen to
+   * @param {Array<string>} events - Events the webhook will listen to
    * @return {Promise<Webhook | never | undefined>} The updated webhook if no error
    * @throws if unable to update the webhook
    */
@@ -204,8 +208,8 @@ export default class APIHandler extends Octokit {
         options as { owner: string; repo: string; hook_id: number }
       );
       return await this.getWebhookById(owner, repo, id, type);
-    } catch (e) {
-      throw `Unable to update webhook for repo: ${repo} due to error: ${e.message}`;
+    } catch (e:any) {
+      throw `Unable to update webhook for repo: ${repo} due to error: ${(<Error>e).message}`;
     }
   }
 
@@ -215,7 +219,7 @@ export default class APIHandler extends Octokit {
    * @param {string} repo - Name of the repo/organization
    * @param {string} type - Type "repository" or "organization"
    * @param {boolean} ping - If request is for ping event
-   * @return {OptionType} Options for specific request
+   * @return {Object} Options for specific request
    */
   fetchOptions(owner: string, repo: string, type: string, ping?: boolean) {
     const options: {

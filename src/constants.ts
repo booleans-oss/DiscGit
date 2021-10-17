@@ -1,5 +1,3 @@
-import path from 'path'
-
 export const DEFAULT_CONFIG = {
   port: 3000,
   token: "TOKEN",

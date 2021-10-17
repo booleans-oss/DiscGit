@@ -4,9 +4,9 @@ import Server from "./server";
 
 /**
  * Request handler to fetch payload from Github's API POST Requests
- * @param {HTTPServer} HTTP Server
- * @param {IncomingMessage} The request sent by API
- * @param {ServerResponse} Server response
+ * @param {HTTPServer} server - HTTP Server
+ * @param {IncomingMessage} request - The request sent by API
+ * @param {ServerResponse} response - Server response
  * @return {void}
  * @constructor
  */

@@ -18,5 +18,5 @@ export default function listennerEvent(
   if (!channel) return;
   const embed = fetchEmbed(payload, event);
   if (!embed) return;
-  channel.send({ embed });
+  channel.send({ embeds: [embed] });
 }

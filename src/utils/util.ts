@@ -3,8 +3,8 @@ import path from 'path'
 import fs from 'fs'
 /**
  * Get the value of property in object
- * @param {T} Object
- * @param {K} key in object
+ * @param {T} object - Object
+ * @param {K} index - Key in object
  * @return {T[K]} Value of property in object {@link T}
  */
 export function getPropertyValue<T, K extends keyof T>(
@@ -16,8 +16,8 @@ export function getPropertyValue<T, K extends keyof T>(
 
 /**
  * Check if object has a property
- * @param {T} Object
- * @param {K} key in object
+ * @param {T} object - Object
+ * @param {K} index - Key in object
  * @return {boolean} If key K exists on object T
  */
 export function hasPropertyValue<T, K extends keyof T>(
@@ -29,9 +29,9 @@ export function hasPropertyValue<T, K extends keyof T>(
 
 /**
  * Update key in object
- * @param {T} Object
- * @param {K} key in object
- * @param {T[K]} new value
+ * @param {T} object - Object
+ * @param {K} index - Key in object
+ * @param {T[K]} value - New value
  * @return {T[K]} new value in objet at property K
  */
 export function updatePropertyValue<T, K extends keyof T>(
@@ -45,7 +45,7 @@ export function updatePropertyValue<T, K extends keyof T>(
 
 /**
  * Beautify the commit list in Github Payload
- * @param {GithubPayload} Payload of the request
+ * @param {Object} payload - Github Payload of the request
  * @return {string} Beautified commit list
  */
 export function beautifyCommits(payload: any): string {
@@ -69,7 +69,7 @@ export function beautifyCommits(payload: any): string {
  * Linearized the commit list in Github Payload
  * Setting maximum of 73 characters in order to have commit description in one line
  * Cropping the commit title in order to make space
- * @param {GithubPayload} Payload of the request
+ * @param {String} sentence - Sentence that needs to be reduced
  * @return {string} Linear commit list
  */
 function LinearizeCommit(sentence: string): Array<string> {
@@ -89,7 +89,7 @@ function LinearizeCommit(sentence: string): Array<string> {
 
 /**
  * Resolve if the type is repository or not
- * @param {string} Type of the repository/organization
+ * @param {string} type - Type of the repository/organization
  * @returns {boolean} if repo is a repo or an organization 
  */
 export function isRepo(type: string): boolean {
@@ -99,7 +99,6 @@ export function isRepo(type: string): boolean {
 
 /**
  * Resolve extension of the config file and verify if it is valid
- * @param {string} Name of the config file
  * @returns {string} Extension of the configuration file
  * @throws if configuration file was not found or language extension is not valid
  */

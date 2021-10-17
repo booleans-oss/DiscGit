@@ -3,8 +3,8 @@ import { Utils } from "../utils";
 
 /**
  * Fetch the embed for the specific Github Events
- * @param {GithubPayload} payload - Request payload
- * @param {GithubEvent} event - Github Event
+ * @param {Object} payload - Github Request payload
+ * @param {String} event - Github Event name
  * @constructor
  * @return {MessageEmbed | undefined} Result MessageEmbed
  */

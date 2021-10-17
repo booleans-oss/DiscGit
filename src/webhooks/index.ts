@@ -3,7 +3,6 @@ import {
   HookConfig,
   HookData,
   ClientGithub,
-  EventType,
   IMustHaveProperties,
 } from "../server.d";
 import Server from "../server";
@@ -115,6 +114,7 @@ export default class WebhookManager {
    * Push the updated webhook in the cache of the webhookManager
    * @param {string} owner - The repo's owner or the organization
    * @param {string} repo - The name of repo
+   * @param {string} id - ID of the webhook
    * @param {string} channel - ID of the channel where the notification should be sent
    * @param {Array<string>} events - Array of events the webhook will listen to
    * @param {string} type - Type of webhook, repo/organization
@@ -155,7 +155,7 @@ export default class WebhookManager {
   }
 
   /**
-   * Check if the webhook is registered in the cache of {@link WebhookHandler}
+   * Check if the webhook is registered in the cache of {@link WebhookManager}
    * @param {string} id - Webhook's ID
    * @return boolean
    */

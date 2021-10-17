@@ -34,7 +34,7 @@ export default class ConfigManager {
    * Check the original config file
    * If missing required property, throw error of the specific property
    * If missing non-required property, set it with {@link DEFAULT_CONFIG}
-   * @param {serverConfig} Actual Config
+   * @param {ServerConfig} configObject - Actual Config
    * @returns {ServerConfig}
    * @throws if missing required field
    */
