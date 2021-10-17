@@ -30,7 +30,7 @@
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
-    "discord.js": "^12.5.1",
+    "discord.js": "^13.2.0",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-prettier": "^4.0.0",
