@@ -1,18 +1,18 @@
 import _http, { Server as HTTPServer } from "http";
-import { ClientGithub, ServerConfig } from "./server.d";
+import { ClientGithub, ServerConfig, EventType } from "./server.d";
 import { Client } from "discord.js";
 import RequestHandler from "./RequestHandler";
 import { connect } from "ngrok";
 import { ConfigManager, APIHandler } from "./utils";
 import WebhookManager from "./webhooks";
-import DEFAULT_LISTENER from "./utils/DefaultListenner";
+import {  defaultListenner } from "./utils/DefaultListenner";
 import { DEFAULT_CONFIG, eventName } from "./constants";
 
 /**
  * Create the main HTTP Server
  * @class {Server}
  */
-export default class Server {
+export default class Server  {
 
   server: HTTPServer;
   _config: ServerConfig;
@@ -111,6 +111,8 @@ export default class Server {
    * @return {void}
    */
   addDiscGitListenner(): void {
-    this.client.on(eventName, DEFAULT_LISTENER);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    this.client.on("eventName", (...args: [ClientGithub, never, EventType, string]) => defaultListenner(this.client, ...args));
   }
 }

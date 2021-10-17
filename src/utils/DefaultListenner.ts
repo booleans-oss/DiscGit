@@ -2,7 +2,7 @@ import { TextChannel, MessageEmbed } from "discord.js";
 import { ClientGithub, HookConfig, EventType } from "../server.d";
 import fetchEmbed from "./EventHandler";
 
-export default function listennerEvent(
+export function defaultListenner(
   client: ClientGithub,
   payload: never,
   event: EventType,
