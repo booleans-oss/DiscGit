@@ -1,10 +1,10 @@
-import { TextChannel } from "discord.js";
+import { TextChannel, MessageEmbed } from "discord.js";
 import { ClientGithub, HookConfig, EventType } from "../server.d";
 import fetchEmbed from "./EventHandler";
 
 export default function listennerEvent(
   client: ClientGithub,
-  payload: any,
+  payload: never,
   event: EventType,
   id: string
 ): void {
@@ -18,5 +18,5 @@ export default function listennerEvent(
   if (!channel) return;
   const embed = fetchEmbed(payload, event);
   if (!embed) return;
-  channel.send({ embeds: [embed] });
+  channel.send({ embeds: [<MessageEmbed>(embed as unknown)] });
 }
