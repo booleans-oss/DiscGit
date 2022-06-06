@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@octokit/core": "^3.5.1",
-    "discord.js": "13.2.0",
+    "discord.js": "13.8.0",
     "ngrok": "^4.2.2"
   }
 }
