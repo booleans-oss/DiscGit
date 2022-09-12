@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/booleans-oss/DiscGit#readme",
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^29.0.1",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
